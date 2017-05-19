@@ -1,0 +1,17 @@
+[Unit]
+After=docker.service
+
+[Service]
+TimeoutSec=0
+        
+ExecStartPre=-/usr/bin/docker kill flasky
+ExecStartPre=-/usr/bin/docker rm flasky
+
+ExecStart=/usr/bin/docker run -h flasky --name="flasky" --p 80:80 apple/flasky
+ExecStop=/usr/bin/docker stop flasky
+
+Restart=always
+RestartSec=10
+        
+[Install]
+WantedBy=multi-user.target
